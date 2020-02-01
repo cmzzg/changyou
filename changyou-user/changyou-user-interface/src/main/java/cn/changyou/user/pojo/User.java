@@ -33,7 +33,7 @@ public class User {
     /**
      * 电话
      */
-    @Pattern(regexp = "^1[35678]\\d{9}$", message = "手机号格式不正确")
+    @Pattern(regexp = "^1[356789]\\d{9}$", message = "手机号格式不正确")
     private String phone;
     /**
      * 创建时间
@@ -44,6 +44,46 @@ public class User {
      */
     @JsonIgnore
     private String salt;
+    @JsonIgnore
+    private String qq;
+    @JsonIgnore
+    private String github;
+    @JsonIgnore
+    private String alipay;
+    @JsonIgnore
+    private String weibo;
+
+    public String getWeibo() {
+        return weibo;
+    }
+
+    public void setWeibo(String weibo) {
+        this.weibo = weibo;
+    }
+
+    public String getAlipay() {
+        return alipay;
+    }
+
+    public void setAlipay(String alipay) {
+        this.alipay = alipay;
+    }
+
+    public String getGithub() {
+        return github;
+    }
+
+    public void setGithub(String github) {
+        this.github = github;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
 
     public Long getId() {
         return id;

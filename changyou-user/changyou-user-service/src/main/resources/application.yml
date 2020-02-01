@@ -15,6 +15,23 @@ spring:
     host: 182.92.2.24
   redis:
     host: 39.105.34.127
+    # 连接超时时间（记得添加单位，Duration）
+    timeout: 10000ms
+    # Redis默认情况下有16个分片，这里配置具体使用的分片
+    # database: 0
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认 0
+        min-idle: 0
+      cache:
+        # 一般来说是不用配置的，Spring Cache 会根据依赖的包自行装配
+        type: redis
 eureka:
   client:
     service-url:
@@ -25,3 +42,59 @@ eureka:
 
 mybatis:
   type-aliases-package: com.changyou.user.pojo
+justauth:
+  enabled: true
+  type:
+    qq:
+      client-id: 101846966
+      client-secret: c690b176b1fa8fb89fd6427f7683d3fa
+      redirect-uri: http://changyou.xgl6.cn/oauth/callback/qq
+    github:
+      client-id: d6fc917db3bde3b97fe6
+      client-secret: 6f0bcac45a9c738bc887d018ad69ab615d2213f8
+      redirect-uri: http://changyou.xgl6.cn/oauth/callback/github
+    wechat:
+      client-id: wxdcb******4ff4
+      client-secret: b4e9dc************************a08ed6d
+      redirect-uri: http://oauth.xkcoding.com/demo/oauth/wechat/callback
+    google:
+      client-id: 716******17-6db******vh******ttj320i******userco******t.com
+      client-secret: 9IBorn************7-E
+      redirect-uri: http://oauth.xkcoding.com/demo/oauth/google/callback
+    microsoft:
+      client-id: 7bdce8******************e194ad76c1b
+      client-secret: Iu0zZ4************************tl9PWan_.
+      redirect-uri: https://oauth.xkcoding.com/demo/oauth/microsoft/callback
+    mi:
+      client-id: 288************2994
+      client-secret: nFeTt89************************==
+      redirect-uri: http://oauth.xkcoding.com/demo/oauth/mi/callback
+    wechat_enterprise:
+      client-id: ww58******f3************fbc
+      client-secret: 8G6PCr00j************************rgk************AyzaPc78
+      redirect-uri: http://oauth.xkcoding.com/demo/oauth/wechat_enterprise/callback
+      agent-id: 1******2
+    gitee:
+      client-id: d95bfb26e5f1d68f0cf1b53ad16d6466246d2d7da8ae37c900f706e64c94c714
+      client-secret: 01a3516797a1a365b5915e0a5d94809e063b5b55dce79ee2b3e2cd0cb28251d0
+      redirect-uri: http://changyou.xgl6.cn/oauth/callback/gitee
+    alipay:
+      clientId: 2021001106632352
+      clientSecret: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClL075gycqR1VpMrz2YzgRtkd/blMne5KfRj7tp4Eb93N2h2sCHvLJIiZ22E+IX9OufJsIxk0O62A+80+2qVFmZgBWu6NlU9hTcEoNJwdywSEF2JBlcWzK34OAhUAIsUg1FgNMhuONroW+kcRh6iTrTqattzQSq/mEx4XSExgZV5VF8euG8ow+2vlccVULG+1FeAm5tOn+tDVjZKQlCEABgtiX2si/KP3kBJokwG3vBYydV5SctJpHoloKqheGMFwIl1R/wVgqiP8B+pPmkANUPZcpnPTbKKUAD+OJ1D444sjTH39x8G0YCwHMmCttUxkf66tI4XEVHQcqm8cSbON5AgMBAAECggEAWMgMkl7Ddh3Q8jGrDmJViG+IDh2l49qu+5wtxl35LqbZECPIh+NKaoBIXCf21z1p8KZYTWcHk7U+jZcIiQyIC5lXJUbEk3l1E6OOqXMItczHivTS5zMHXiKz8yerOwDN5npmW4NEWqoqiDqgamAGZ9JmE4gcHM0B1zPF4RsSIMvqqlYHWmC9obRc3nVe7bfOxUmNKvzsjsXI5bxGqg91Bv3LMTFu6Yf0dHdOLGyZfC6wxG9Q64ekEr7pzQ4P2rsDwKfNUjNEcoe4nCGDA1StIQBQP/Ia95n8s2h2fssKtex+54ZVCadLpsJQmQzDUwG7IK7sNQ4L50kEudT1+CZ84QKBgQDuD7+6/SFEktc+C7kTXwTbKwHIWSPV4njyg1wzMu3M1gKs0HVZEcwgXzjUEZOggIS/KmQdXscj3LITsOJdWzfYCWSAT1RadIhwv+qZrmfpIROJKqTlPdQFfuUpYXmmCJfyTK506zwneoelq+dK5YQ6VZ7/ioHZY/Cn4rPKfWa/ZwKBgQCxocEIW/FQ9Pfwb8893tuAISVcnOcwv1yFXTvOkRPi7jLElXoEjsnHvc5e9jM2muwnuJrRdTd6/l2Mjr+q/Ksykjba+izA9+e0x0Au+i3pyMhd4aXxbScf5sMLvIwQAzzoK9FoXiXI+PxM3rf/LFBO7c85AA7EmORr0aH8I1LaHwKBgFW4GgOMjeQRM6vFsNiGyErai4PGhR7Is2AvaI2O8w1kqgXr8bUmsWeeoenKgmuymxnye6YPsIj7OKvab0fKRqtlhmilJ+yCNXbTw/eeUxAgttYXItTglG1+KanizVi5k2zNq6ux4DEe76T55wiS6C/RELVW/DZ4w/jPqolo6gxVAoGAbirKE6siYXltBLvzpoW/URo9l9DgOgWVFkmavCSSVt4wsmeag5UjZDQ99/tuC+HNsVz2+A1g2XFFB9XI3f1TGExCpVEfzJZ0KFSjY/9Z1nLmggNe7fsqlsiCE5dertezQLNcbwRlHt39bJd9Ok97h1hKeymj/x5sHMqpUj1+NzUCgYBAv0bu0xwWzzVImuveaLdJ/5+RMiBtul6tljIoKbsmn3YeeCKe1YlGmCD3P7QXuMfGd7SBLybPUs8QUk3+86ai9On0/uxTZO2gefoL3YPPl/alM22G0amdsWAlT0s08gqeOSIuYUakkCaWY/z8IPnS68uxqiOGIEQHmMEubjx4YQ==
+      alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg2kUSvGc2vckc/cz6vxPxOLPmKoWrInvhK9zjQR7cr+BMjRcE7rgr3e2zzA4CmR+Ul/TAUkzSh+gLtbpbdRWTzU6WUnaggiTiJFeMXj715om0exaY4u4zBJX9OOmkgwsVL14/anIzoWKEbRKyiycDpBVw2XW4+ncisi5IU29ZG4gKhZJrmWmlkfN3u0GB0VMgbB84UXgacZtwlQyYv/EzkWVZ8uX3ycVG+A3ksC+QSPpq2E3fZsKpvOdUW1y4FgEKt670vrF2HNiGZ/DbdSBDPS59Jz8mmKIjadDPWKixaooQ3D6eTJ7uIcDOFjPW7Tqy9whJLolwSkFvquk9BbFswIDAQAB
+      redirectUri: http://changyou.xgl6.cn/oauth/callback/alipay
+    weibo:
+      clientId: 4241940114
+      clientSecret: 4819d23d6d2e560262d9e32557899982
+      redirectUri: http://changyou.xgl6.cn/oauth/callback/weibo
+  cache:
+    type: redis
+    prefix: 'SOCIAL::STATE::'
+    timeout: 1h
+changyou:
+  jwt:
+    secret: changyou@Login(Auth}*^31)&changYou% # 登录校验的密钥
+    pubKeyPath: D:\\temp\\rsa\\rsa.pub # 公钥地址
+    priKeyPath: D:\\temp\\rsa\\rsa.pri # 私钥地址
+    expire: 30 # 过期时间,单位分钟
+    cookieName: CY_TOKEN

@@ -1,0 +1,26 @@
+server:
+  port: 8083
+spring:
+  jackson:
+    default-property-inclusion: non_null # 配置json处理时忽略空值
+  application:
+    name: search-service
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 39.105.34.127:9300
+  rabbitmq:
+    host: 182.92.2.24
+    virtual-host: /changyou
+    username: changyou
+    password: changyou
+    template:
+      exchange: changyou.item.exchange
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+    registry-fetch-interval-seconds: 10 #每10s拉取一次服务
+  instance:
+    lease-expiration-duration-in-seconds: 15 #15s不发就过期
+    lease-renewal-interval-in-seconds: 5 #5s发一次心跳

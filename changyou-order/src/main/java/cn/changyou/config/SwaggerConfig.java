@@ -1,4 +1,4 @@
-package cn.changyou.user.config;
+package cn.changyou.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,21 +13,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host("http://127.0.0.1:8085")
+                .host("localhost:8089")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.changyou.user.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.changyou.order.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("畅优商城用户系统")
-                .description("畅优商城用户系统接口文档")
+                .title("畅优商城订单系统")
+                .description("畅优商城订单系统接口文档")
                 .version("1.0")
                 .build();
     }

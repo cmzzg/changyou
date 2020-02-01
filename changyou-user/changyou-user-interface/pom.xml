@@ -8,8 +8,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>cn.changyou.user</groupId>
     <artifactId>changyou-user-interface</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
     <dependency>

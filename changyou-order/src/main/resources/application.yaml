@@ -1,0 +1,70 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/leyou
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 1000
+      test-on-borrow: true
+  rabbitmq:
+    host: 182.92.2.24
+    username: changyou
+    password: changyou
+    virtual-host: /changyou
+    template:
+      retry:
+        enabled: true
+        initial-interval: 10000ms
+        max-interval: 300000ms
+        multiplier: 2
+      exchange: leyou.item.exchange
+    publisher-confirms: true
+  redis:
+    host: 39.105.34.127
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${eureka.instance.ip-address}.${server.port}
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 10
+
+mybatis:
+  type-aliases-package: cn.changyou.item.pojo
+  mapper-locations: mapper/OrderMapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+mapper:
+  not-empty: false
+  identity: mysql
+changyou:
+  worker:
+    workerId: 1
+    datacenterId: 1
+  jwt:
+    pubKeyPath: D:\\temp\\rsa\\rsa.pub # 公钥地址
+    cookieName: CY_TOKEN # cookie的名称
+  wxpay:
+    appId: wx8397f8696b538317
+    mchId: 1473426802
+    key: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
+    connectTimeoutMs: 5000
+    readTimeoutMs: 10000
+  alipay:
+    appId: 2019112869465580
+    privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClL075gycqR1VpMrz2YzgRtkd/blMne5KfRj7tp4Eb93N2h2sCHvLJIiZ22E+IX9OufJsIxk0O62A+80+2qVFmZgBWu6NlU9hTcEoNJwdywSEF2JBlcWzK34OAhUAIsUg1FgNMhuONroW+kcRh6iTrTqattzQSq/mEx4XSExgZV5VF8euG8ow+2vlccVULG+1FeAm5tOn+tDVjZKQlCEABgtiX2si/KP3kBJokwG3vBYydV5SctJpHoloKqheGMFwIl1R/wVgqiP8B+pPmkANUPZcpnPTbKKUAD+OJ1D444sjTH39x8G0YCwHMmCttUxkf66tI4XEVHQcqm8cSbON5AgMBAAECggEAWMgMkl7Ddh3Q8jGrDmJViG+IDh2l49qu+5wtxl35LqbZECPIh+NKaoBIXCf21z1p8KZYTWcHk7U+jZcIiQyIC5lXJUbEk3l1E6OOqXMItczHivTS5zMHXiKz8yerOwDN5npmW4NEWqoqiDqgamAGZ9JmE4gcHM0B1zPF4RsSIMvqqlYHWmC9obRc3nVe7bfOxUmNKvzsjsXI5bxGqg91Bv3LMTFu6Yf0dHdOLGyZfC6wxG9Q64ekEr7pzQ4P2rsDwKfNUjNEcoe4nCGDA1StIQBQP/Ia95n8s2h2fssKtex+54ZVCadLpsJQmQzDUwG7IK7sNQ4L50kEudT1+CZ84QKBgQDuD7+6/SFEktc+C7kTXwTbKwHIWSPV4njyg1wzMu3M1gKs0HVZEcwgXzjUEZOggIS/KmQdXscj3LITsOJdWzfYCWSAT1RadIhwv+qZrmfpIROJKqTlPdQFfuUpYXmmCJfyTK506zwneoelq+dK5YQ6VZ7/ioHZY/Cn4rPKfWa/ZwKBgQCxocEIW/FQ9Pfwb8893tuAISVcnOcwv1yFXTvOkRPi7jLElXoEjsnHvc5e9jM2muwnuJrRdTd6/l2Mjr+q/Ksykjba+izA9+e0x0Au+i3pyMhd4aXxbScf5sMLvIwQAzzoK9FoXiXI+PxM3rf/LFBO7c85AA7EmORr0aH8I1LaHwKBgFW4GgOMjeQRM6vFsNiGyErai4PGhR7Is2AvaI2O8w1kqgXr8bUmsWeeoenKgmuymxnye6YPsIj7OKvab0fKRqtlhmilJ+yCNXbTw/eeUxAgttYXItTglG1+KanizVi5k2zNq6ux4DEe76T55wiS6C/RELVW/DZ4w/jPqolo6gxVAoGAbirKE6siYXltBLvzpoW/URo9l9DgOgWVFkmavCSSVt4wsmeag5UjZDQ99/tuC+HNsVz2+A1g2XFFB9XI3f1TGExCpVEfzJZ0KFSjY/9Z1nLmggNe7fsqlsiCE5dertezQLNcbwRlHt39bJd9Ok97h1hKeymj/x5sHMqpUj1+NzUCgYBAv0bu0xwWzzVImuveaLdJ/5+RMiBtul6tljIoKbsmn3YeeCKe1YlGmCD3P7QXuMfGd7SBLybPUs8QUk3+86ai9On0/uxTZO2gefoL3YPPl/alM22G0amdsWAlT0s08gqeOSIuYUakkCaWY/z8IPnS68uxqiOGIEQHmMEubjx4YQ==
+    publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg2kUSvGc2vckc/cz6vxPxOLPmKoWrInvhK9zjQR7cr+BMjRcE7rgr3e2zzA4CmR+Ul/TAUkzSh+gLtbpbdRWTzU6WUnaggiTiJFeMXj715om0exaY4u4zBJX9OOmkgwsVL14/anIzoWKEbRKyiycDpBVw2XW4+ncisi5IU29ZG4gKhZJrmWmlkfN3u0GB0VMgbB84UXgacZtwlQyYv/EzkWVZ8uX3ycVG+A3ksC+QSPpq2E3fZsKpvOdUW1y4FgEKt670vrF2HNiGZ/DbdSBDPS59Jz8mmKIjadDPWKixaooQ3D6eTJ7uIcDOFjPW7Tqy9whJLolwSkFvquk9BbFswIDAQAB
+    serverUrl: https://openapi.alipay.com/gateway.do
+    domain: https://changyou.xgl6.cn

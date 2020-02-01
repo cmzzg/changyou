@@ -18,6 +18,8 @@
         <module>changyou-sms</module>
         <module>changyou-user</module>
         <module>changyou-upload</module>
+        <module>changyou-order</module>
+        <module>changyou-search</module>
     </modules>
     <name>changyou</name>
     <description>Demo project for Spring Boot</description>

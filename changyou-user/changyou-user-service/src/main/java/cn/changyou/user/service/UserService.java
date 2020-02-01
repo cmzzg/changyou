@@ -81,13 +81,15 @@ public class UserService {
      * @param user
      * @param code
      */
-    public void register(User user, String code) {
+    public Boolean register(User user, String code) {
         //0.查询Redis中的验证码
-        log.info("查询redis中的验证码");
+
         String redisCode = redisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
+        log.info("查询redis中的验证码,验证码为{}",redisCode);
         //1.校验验证码
         if (!StringUtils.equals(code,redisCode)){
-            return ;
+            log.info("此时,校验不通过,用户输入的code为{},redis当中的code为{}",code,redisCode);
+            return false;
         }
         log.info("验证码校验通过");
         //2.生成盐
@@ -102,6 +104,7 @@ public class UserService {
         log.info("用户新增成功");
         //5.删除Redis中的验证码
         redisTemplate.delete(KEY_PREFIX + user.getPhone());
+        return true;
     }
 
     /**
@@ -132,5 +135,14 @@ public class UserService {
             return one;
         }
         return null;
+    }
+
+    /**
+     * 第三方登录
+     * @param user
+     * @return
+     */
+    public User thirdLogin(User user){
+        return userMapper.selectOne(user);
     }
 }
