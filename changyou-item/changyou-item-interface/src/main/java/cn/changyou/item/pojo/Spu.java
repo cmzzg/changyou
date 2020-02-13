@@ -25,9 +25,17 @@ public class Spu {
     private Boolean valid;// 是否有效，逻辑删除用
     private Date createTime;// 创建时间
     private Date lastUpdateTime;// 最后修改时间
-    private int sort; //首页商品排序
+    private Long sort; //首页商品排序
     private Boolean isHomeGoods; //是否在首页显示
+    private Long remakeNum;//评论数量
 
+    public Long getRemakeNum() {
+        return remakeNum;
+    }
+
+    public void setRemakeNum(Long remakeNum) {
+        this.remakeNum = remakeNum;
+    }
 
     public Long getId() {
         return id;
@@ -117,11 +125,11 @@ public class Spu {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public int getSort() {
+    public Long getSort() {
         return sort;
     }
 
-    public void setSort(int sort) {
+    public void setSort(Long sort) {
         this.sort = sort;
     }
 

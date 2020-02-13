@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 import java.beans.Transient;
 import java.util.ArrayList;
@@ -225,6 +226,154 @@ public class GoodsService {
         spuMapper.updateByPrimaryKeySelective(spu);
     }
 
+    /**
+     * 通过id修改是某个商品显示在首页以及显示在哪个位置
+     * @param id spuid
+     * @param sort 排序
+     * @param isHomeGoods 是否显示在首页
+     */
+    public void updatesortById(Long id, Long sort, Boolean isHomeGoods) {
+        Spu spu = new Spu();
+        spu.setId(id);
+        spu.setSort(sort);
+        spu.setIsHomeGoods(isHomeGoods);
+        Example example =new Example(Spu.class);
+        Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("sort",sort);
+        Spu spu1 = spuMapper.selectOneByExample(example);
+        if (spu1 != null){
+            spu1.setSort(0L);
+            spu1.setIsHomeGoods(false);
+            spuMapper.updateByPrimaryKeySelective(spu1);
+        }
+        spuMapper.updateByPrimaryKeySelective(spu);
+    }
+
+    /**
+     * 计算某个商品的评论数量 新增评论
+     * @param spu
+     */
+    public void updateByRemakNum(Spu spu){
+        Spu spu1 = spuMapper.selectOne(spu);
+        Long l = spu1.getRemakeNum() + 1;
+        Spu spu2 = new Spu();
+        spu2.setId(spu.getId());
+        spu2.setRemakeNum(l);
+        spuMapper.updateByPrimaryKeySelective(spu2);
+    }
+
+    /**
+     * 计算某个商品的评论数量 删除评论
+     * @param id
+     */
+    public void deleteCommentById(Long id){
+        Spu spu = new Spu();
+        spu.setId(id);
+        Spu spu1 = spuMapper.selectByPrimaryKey(spu);
+        Long remakeNum = spu1.getRemakeNum() - 1;
+        Spu spu2 = new Spu();
+        spu2.setId(spu.getId());
+        spu2.setRemakeNum(remakeNum);
+        spuMapper.updateByPrimaryKeySelective(spu2);
+    }
+
+    /**
+     * 通过spuid查询spu商品
+     * @param spuId
+     * @return
+     */
+    public Spu querySpuById(Long spuId) {
+        Spu spu = spuMapper.selectByPrimaryKey(spuId);
+        return spu;
+    }
+
+    /**
+     * 根据数据是否在首先显示进行数据查询和排序
+     *
+     * @param page 当前页码
+     * @param rows 显示行数
+     * @return 商品集合
+     */
+    public PageResult<List<Spu>> querySpuByIdsBySort(Integer page, Integer rows) {
+        PageHelper.startPage(page, rows);
+
+        Example example = new Example(Spu.class);
+        example.setOrderByClause("sort ASC");
+        Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isHomeGoods", "1");
+        List<Spu> spus = spuMapper.selectByExample(example);
+
+        PageInfo<Spu> pageInfo = new PageInfo<>(spus);
+        return new PageResult(pageInfo.getTotal(), spus);
+    }
+
+    /**
+     * 根据商品上下架状态统计商品总数
+     * @param saleable 商品上下架状态
+     * @return
+     */
+    public int querySpuCount(boolean saleable) {
+        Spu spu = new Spu();
+        spu.setSaleable(saleable);
+        Integer i = spuMapper.selectCount(spu);
+        return i;
+    }
+
+    /**
+     * 统计sku商品总数
+     * @return
+     */
+    public Integer querySkuByCount() {
+        Integer i = skuMapper.querySkuByCount();
+        return i;
+    }
+
+    /**
+     * 统计库存为0的商品数量
+     * @return
+     */
+    public Integer querySkuStock() {
+        Stock stock =new Stock();
+        stock.setStock(0);
+        Integer i = stockMapper.selectCount(stock);
+        return i;
+    }
+
+    /**
+     * 查询所有库存为0的商品
+     * @return
+     */
+    public List<Sku> querySkuByStock(){
+        Stock stock =new Stock();
+        stock.setStock(0);
+        Sku sku = new Sku();
+        List<Sku> skus = new ArrayList<>();
+        List<Stock> stocks = stockMapper.select(stock);
+        for (Stock stock1 : stocks) {
+            sku.setId(stock1.getSkuId());
+            Sku sku1 = skuMapper.selectByPrimaryKey(sku);
+            skus.add(sku1);
+        }
+        return skus;
+    }
+
+    /**
+     * 查询所有库存小于10的商品详情
+     * @return
+     */
+    public List<Sku> queryStockByCountSku() {
+        List<String> stocks = stockMapper.queryStockByCountSku();
+        List<Sku> skus = new ArrayList<>();
+        for (String stock1 : stocks) {
+            Sku sku = skuMapper.selectByPrimaryKey(stock1);
+            skus.add(sku);
+        }
+        return skus;
+    }
+
+    public Integer queryStockByCount() {
+        return stockMapper.queryStockByCount();
+    }
 
     public void setSpuMapper(SpuMapper spuMapper) {
         this.spuMapper = spuMapper;
@@ -257,6 +406,7 @@ public class GoodsService {
     public SpuDetail querySpuDetailById(Long id) {
         return spuDetailMapper.selectByPrimaryKey(id);
     }
+
 
 
 }

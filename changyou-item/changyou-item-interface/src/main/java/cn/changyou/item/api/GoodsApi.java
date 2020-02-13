@@ -3,11 +3,9 @@ package cn.changyou.item.api;
 import cn.changyou.common.pojo.PageResult;
 import cn.changyou.item.bo.SpuBo;
 import cn.changyou.item.pojo.Sku;
+import cn.changyou.item.pojo.Spu;
 import cn.changyou.item.pojo.SpuDetail;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,4 +42,38 @@ public interface GoodsApi {
 
     @GetMapping("sku/{skuId}")
     Sku querySkuBySkuId(@PathVariable("skuId") Long skuId);
+
+    @GetMapping("spu/sort")
+    PageResult<List<Spu>> querySpuByIdsBySort(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "rows", defaultValue = "25") Integer rows);
+
+    @PutMapping("spu/update/remakeNum")
+    Void updateByRemakNum(Spu spu);
+
+    @DeleteMapping("spu/delete/remakeNum")
+    Void deleteCommentById(@RequestParam("id") Long id);
+
+    @GetMapping("spu/spuId")
+    Spu querySpuById(Long spuId);
+
+    @GetMapping("count/{saleable}")
+    Integer querySkuCount(@PathVariable("saleable") boolean saleable);
+
+    @GetMapping("count/stock")
+    Integer queryStockByCount();
+
+    @GetMapping("count/sku")
+    Integer querySkuByCount();
+
+    @GetMapping("stock/count")
+    Integer querySkuStock();
+
+    @GetMapping("sku/stock")
+    List<Sku> querySkuByStock();
+
+    /**
+     * 1
+     * @return
+     */
+    @GetMapping("stock/sku")
+    List<Sku> queryStockByCountSku();
 }

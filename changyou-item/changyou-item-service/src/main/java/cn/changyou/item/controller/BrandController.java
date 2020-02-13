@@ -3,16 +3,12 @@ package cn.changyou.item.controller;
 import cn.changyou.common.pojo.PageResult;
 import cn.changyou.item.pojo.Brand;
 import cn.changyou.item.service.BrandService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.beans.Transient;
 import java.util.List;
 
 /**
@@ -99,8 +95,9 @@ public class BrandController {
      * @return 品牌
      */
     @GetMapping("cid/{cid}")
-    public ResponseEntity<List<Brand>> queryBrandById(@PathVariable("cid") Long cid){
+    public List<Brand> queryBrandById(@PathVariable("cid") Long cid){
         List<Brand> brands = brandservice.queryBrandById(cid);
-        return ResponseEntity.ok(brands);
+        System.out.println(cid);
+        return brands;
     }
 }
