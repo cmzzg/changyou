@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author xgl
@@ -59,6 +60,7 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param user
      * @param code
      * @return
@@ -89,5 +91,49 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(user);
+    }
+
+    /**
+     * 通过ID查询用户昵称和头像
+     *
+     * @param ids
+     * @return
+     */
+    @GetMapping("people")
+    public ResponseEntity<List<User>> queryById(@RequestParam("ids") List<Long> ids) {
+        List<User> users = this.userService.queryUserById(ids);
+        return ResponseEntity.ok(users);
+    }
+
+    /**
+     * 统计会员总数
+     *
+     * @return
+     */
+    @GetMapping("count/user")
+    public ResponseEntity<Integer> queryUserCount() {
+        Integer i = userService.queryUserCount();
+        return ResponseEntity.ok(i);
+    }
+
+    /**
+     * 统计今天用户注册量
+     *
+     * @return
+     */
+    @GetMapping("count/day/user")
+    public ResponseEntity<Integer> queryUserByCreatedDay() {
+        Integer i = userService.queryUserByCreatedDay();
+        return ResponseEntity.ok(i);
+    }
+    @GetMapping("count/old/user")
+    public ResponseEntity<Integer> queryUserByCreatedOld(){
+        Integer i = userService.queryUserByCreatedOld();
+        return ResponseEntity.ok(i);
+    }
+    @GetMapping("count/month/user")
+    public ResponseEntity<Integer> queryUserByCreadMonth(){
+        Integer i = userService.queryUserByCreatedMonth();
+        return ResponseEntity.ok(i);
     }
 }

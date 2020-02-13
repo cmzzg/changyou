@@ -10,5 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public interface UserApi {
     @GetMapping("query")
-    public User queryUser(@RequestParam("username") String username, @RequestParam("password") String password);
+    User queryUser(@RequestParam("username") String username, @RequestParam("password") String password);
+
+    @GetMapping("count/user")
+    Integer queryUserCount();
+
+    @GetMapping("count/day/user")
+    Integer queryUserByCreatedDay();
+
+    @GetMapping("count/old/user")
+    Integer queryUserByCreatedOld();
+
+    @GetMapping("count/month/user")
+    Integer queryUserByCreadMonth();
 }

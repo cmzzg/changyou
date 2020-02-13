@@ -3,8 +3,8 @@ package cn.changyou.order.controller;
 import cn.changyou.common.pojo.PageResult;
 import cn.changyou.order.pojo.Order;
 import cn.changyou.order.pojo.OrderStatus;
-import cn.changyou.order.service.PayService;
 import cn.changyou.order.service.OrderService;
+import cn.changyou.order.service.PayService;
 import cn.changyou.utils.PayHelper;
 import cn.changyou.utils.PayState;
 import io.swagger.annotations.*;
@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("order")
 @Api("订单服务接口")
 public class OrderController {
@@ -44,7 +45,7 @@ public class OrderController {
     @ApiOperation(value = "创建订单接口，返回订单编号", notes = "创建订单")
     @ApiImplicitParam(name = "order", required = true, value = "订单的json对象,包含订单条目和物流信息")
     public ResponseEntity<Long> createOrder(@RequestBody @Valid Order order) {
-        log.info("准备开始创建订单,订单信息为{}",order);
+        log.info("准备开始创建订单,订单信息为{}", order);
         Long id = this.orderService.createOrder(order);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
@@ -65,10 +66,11 @@ public class OrderController {
         }
         return ResponseEntity.ok(order);
     }
+
     @GetMapping("state/{id}")
-    public ResponseEntity<OrderStatus> queryOrderStatusById(@PathVariable("id") Long id){
+    public ResponseEntity<OrderStatus> queryOrderStatusById(@PathVariable("id") Long id) {
         OrderStatus status = orderService.queryOrderStatusById(id);
-        if (status == null){
+        if (status == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(status);
@@ -147,8 +149,8 @@ public class OrderController {
     })
     public ResponseEntity<String> createWxPayUrl(@RequestBody Order order) {
         // 生成付款链接
-        String url = this.payService.createWxPayUrl(order.getOrderId(),order.getTitle(),order.getActualPay().toString());
-        log.info("生成付款链接,{},{},{},{}",order.getOrderId(),order.getTitle(),order.getActualPay(),url);
+        String url = this.payService.createWxPayUrl(order.getOrderId(), order.getTitle(), order.getActualPay().toString());
+        log.info("生成付款链接,{},{},{},{}", order.getOrderId(), order.getTitle(), order.getActualPay(), url);
         if (StringUtils.isBlank(url)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -170,12 +172,13 @@ public class OrderController {
     })
     public ResponseEntity<Integer> queryPayState(@PathVariable("id") Long orderId) {
         PayState payState = this.payService.queryWxOrder(orderId);
-        log.info("订单{}的状态为{}",orderId,payState.getValue());
+        log.info("订单{}的状态为{}", orderId, payState.getValue());
         return ResponseEntity.ok(payState.getValue());
     }
 
     /**
      * 创建阿里支付URl
+     *
      * @param order
      * @return
      */
@@ -187,8 +190,8 @@ public class OrderController {
             @ApiResponse(code = 404, message = "生成链接失败"),
             @ApiResponse(code = 500, message = "服务器异常"),
     })
-    public ResponseEntity<String> aliPay(@RequestBody Order order){
-        log.info("支付宝的参数{},标题为{}",order,order.getTitle());
+    public ResponseEntity<String> aliPay(@RequestBody Order order) {
+        log.info("支付宝的参数{},标题为{}", order, order.getTitle());
         String url = payService.createAliPayUrl(order);
         //String url = aliPayHelper.createPayUrl(order);
         return ResponseEntity.ok(url);
@@ -196,6 +199,7 @@ public class OrderController {
 
     /**
      * 查询阿里付款状态
+     *
      * @param orderId
      * @return
      */
@@ -211,9 +215,19 @@ public class OrderController {
             return ResponseEntity.badRequest().build();
         }
         PayState payState = payService.queryAliPayState(orderId);
-        if (payState == null){
+        if (payState == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(payState.getValue());
+    }
+
+    /**
+     * 查询订单总数
+     * @return
+     */
+    @GetMapping("count")
+    public int orderCount() {
+        int i = orderService.queryOrderCount();
+        return i;
     }
 }

@@ -5,7 +5,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/leyou
+    url: jdbc:mysql://127.0.0.1:3306/changyou
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -30,6 +30,8 @@ spring:
     publisher-confirms: true
   redis:
     host: 39.105.34.127
+
+
 eureka:
   client:
     service-url:
@@ -40,6 +42,9 @@ eureka:
     instance-id: ${eureka.instance.ip-address}.${server.port}
     lease-renewal-interval-in-seconds: 3
     lease-expiration-duration-in-seconds: 10
+  management:
+    security:
+      enabled: false
 
 mybatis:
   type-aliases-package: cn.changyou.item.pojo

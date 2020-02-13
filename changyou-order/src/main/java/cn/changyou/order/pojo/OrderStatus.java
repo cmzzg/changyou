@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name = "tb_order_status")
+@Table(name = "cy_order_status")
 public class OrderStatus {
 
     @Id

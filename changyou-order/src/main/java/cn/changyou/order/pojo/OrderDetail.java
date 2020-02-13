@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "tb_order_detail")
+@Table(name = "cy_order_detail")
 public class OrderDetail {
 
     @Id

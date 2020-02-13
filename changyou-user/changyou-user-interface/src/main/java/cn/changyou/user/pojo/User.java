@@ -14,7 +14,7 @@ import java.util.Date;
  * @author xgl
  * @create 2019-12-27 0:29
  */
-@Table(name = "tb_user")
+@Table(name = "cy_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +52,16 @@ public class User {
     private String alipay;
     @JsonIgnore
     private String weibo;
+
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getWeibo() {
         return weibo;

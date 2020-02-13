@@ -16,6 +16,8 @@ zuul:
     user-service: /user/** #路由到用户微服务
     auth-service: /auth/** # 授权中心微服务
     cart-service: /cart/** #购物车微服务
+    order-service: /order/** #订单微服务
+    trade-service: /trade/** #交易微服务
   add-host-header: true #携带请求本身的header信息
   sensitive-headers: #配置禁止使用的头信息,否则set-cookie无效
 changyou:
@@ -30,3 +32,6 @@ changyou:
       - /api/user/check
       - /api/user/code
       - /api/item
+      - /api/trade
+      - /api/order
+      - /api/user
