@@ -6,14 +6,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * @author xgl
- * @create 2019-12-25 11:18
+ * @author GM
+ * @create 2019-12-07 18:44
  */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class ChangyouSearchApplication {
+public class ChangyouDealApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ChangyouSearchApplication.class);
+        SpringApplication.run(ChangyouDealApplication.class);
     }
 }

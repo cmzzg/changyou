@@ -1,0 +1,25 @@
+server:
+  port: 8098
+spring:
+  application:
+    name: trade-service
+#  datasource:
+#    url: jdbc:mysql:///changyou?useUnicode=true&characterEncoding=utf8
+#    username: root
+#    password: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳时间
+    lease-expiration-duration-in-seconds: 15 #过期时间
+  management:
+    security:
+      enabled: false
+
+changyou:
+  jwt:
+    pubKeyPath: D:\\temp\\rsa\\rsa.pub # 公钥地址
+    cookieName: CY_TOKEN
